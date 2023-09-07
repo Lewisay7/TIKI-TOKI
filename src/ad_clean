@@ -3,7 +3,7 @@ import pandas as pd
 
 def ad_cleaned():
     #data read in 
-    url= "TIKI-TOKI/data/ad_ranking_raw_data.xlsx"
+    url= "/TIKI-TOKI/data/ad_ranking_raw_data.xlsx"
     ad = pd.read_excel(url,sheet_name=0,header=1)
 
     #clean up columns
