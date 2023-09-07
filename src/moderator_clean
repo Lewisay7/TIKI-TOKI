@@ -1,0 +1,44 @@
+import numpy as np
+import pandas as pd
+import openpyxl as xl
+
+url= "~/TIKI-TOKI/data/ad_ranking_raw_data.xlsx"
+col_names = ['mod_id', 'market','productivity', 'utilisation_percentage','handling_time','accuracy']
+moderator_data = pd.read_excel(url,sheet_name=1,header=None,skiprows=1,names =['mod_id', 'market','productivity', 'utilisation_percentage','handling_time','accuracy'])
+moderator_data.head()
+
+#replacing obs with '-' to 0
+#replacing 0 to nan
+
+def replace_0(predictors,data):
+    for i in predictors:
+        df = data[i]
+        data[i] = df.replace('                 -  ',0)
+
+def replace_nan(predictors, data):
+    for i in predictors:
+        df = data[i]
+        data[i] = df.replace(0, np.nan)
+
+replace_0(predictors = col_names,data = moderator_data)
+replace_nan(predictors = col_names,data = moderator_data)
+#removing obs with nan
+moderator_data.dropna(inplace=True)
+
+#dropping duplicated mod_id obs
+moderator_data.drop_duplicates(subset=['mod_id'])
+#check the dim
+moderator_data.shape
+moderator_data.head(n = 10)
+
+#rounding off utilisation and productivity to 2 dp
+moderator_data = moderator_data.round({'utilisation_percentage':2, 'productivity':2, 'accuracy':3})
+moderator_data.head(n = 10)
+
+
+
+
+
+
+
+
