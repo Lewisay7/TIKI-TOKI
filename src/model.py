@@ -18,7 +18,10 @@ df = pd.DataFrame(standardised_cols,columns = cols)
 df.index = df.index + 1
 df.shape
 mod['productivity'] = df['productivity']
-mod['productivity']
+mod['utilisation_percentage'] = df['utilisation_percentage']
+mod['handling_time'] = df['handling_time']
+mod['accuracy'] = df['accuracy']
+mod
 mod.isnull().sum()
 
 
