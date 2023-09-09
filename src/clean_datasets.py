@@ -7,16 +7,32 @@ except FileNotFoundError:
     pass
 
 '''Cleaning advertisement data'''
+
+
 def ad_cleaned():
     #data read in 
     url= "../data/ad_ranking_raw_data.xlsx"
     ad = pd.read_excel(url,sheet_name=0,header=1)
-
+    ad = pd.DataFrame(ad)
+    ad.drop(["product_line", "task_type_en"], axis='columns', inplace=True)
+    
     #clean up columns
     ad["queue_market"]=np.where(ad["queue_market"]=="US&CA","USCA",ad["queue_market"])
     ad["p_date"] = pd.to_datetime(ad["p_date"],format ='%Y%m%d')
-    ad = ad.drop_duplicates( subset = "ad_id")
-    ad = ad.round({'ad_revenue':3,'avg_ad_revenue':3,'baseline_st':3})
+    ad.drop_duplicates( subset = "ad_id")
+    ad.round({'ad_revenue':3,'avg_ad_revenue':3,'baseline_st':3})
+    ad["punish_num"] = ad["punish_num"].replace(np.nan, 0)
+
+    null_qm = np.where(ad["queue_market"].isnull())
+    for row in null_qm:
+        ad["queue_market"][row] = ad["delivery_country"][row]
+
+    null_rev = np.where(ad["ad_revenue"].isnull())
+    for row in null_rev:
+        ad["ad_revenue"][row] = ad["avg_ad_revenue"][row]
+
+    ad.dropna(inplace=True)
+
     return ad
 
 ad_cleaned()
