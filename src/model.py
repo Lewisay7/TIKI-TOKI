@@ -2,7 +2,7 @@ import clean_datasets as clean
 import pandas as pd
 import numpy as np
 import sklearn as sk
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import prince
 from sklearn.cluster import KMeans
@@ -14,6 +14,8 @@ mod = clean.mod_cleaned()
 ad
 mod.index = range(1,len(mod)+1)
 mod
+
+'''MODERATOR MODEL'''
 #standardising data
 scaler = StandardScaler()
 standardised_cols = scaler.fit_transform(mod.loc[:,'productivity':'accuracy'])
@@ -28,6 +30,17 @@ mod['handling_time'] = df['handling_time']
 mod['accuracy'] = df['accuracy']
 mod
 mod.isnull().sum()
+
+#visualising relationships between features
+sns.set(style="whitegrid")
+sns.pairplot(mod.loc[:,'productivity':'accuracy'], kind='reg', diag_kind='kde')
+plt.show()
+
+#Correlation
+plt.figure(figsize=(8,6))
+sns.set(style="whitegrid")
+sns.heatmap(mod.loc[:,'productivity':'accuracy'].corr(method='pearson'), vmin=-.1, vmax=1,  annot=True, cmap='RdYlGn')
+plt.show()
 
 
 sk_pca = PCA(n_components=4,random_state=234)
@@ -45,6 +58,10 @@ for p in graph.patches:
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
 plt.show()
+
+
+
+
 
 
 
