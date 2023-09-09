@@ -9,26 +9,36 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import seaborn as sns
 
+
 ad = clean.ad_cleaned()
-mod = clean.mod_cleaned()
 ad
-mod
+
+
+
+
+
 
 '''MODERATOR MODEL'''
 #standardising data
 scaler = StandardScaler()
-standardised_cols = scaler.fit_transform(mod.loc[:,'productivity':'accuracy'])
+ad
+scaler
+standardised_cols = scaler.fit_transform(ad.loc[:,'productivity':'accuracy'])
+
+len(standardised_cols)
 cols = ['productivity', 'utilisation_percentage','handling_time','accuracy']
 df = pd.DataFrame(standardised_cols,columns = cols)
 df.index = df.index + 1
+df
 
 df.shape
-mod['productivity'] = df['productivity']
-mod['utilisation_percentage'] = df['utilisation_percentage']
-mod['handling_time'] = df['handling_time']
-mod['accuracy'] = df['accuracy']
-mod
-mod.isnull().sum()
+ad
+ad['productivity'] = df['productivity']
+ad['utilisation_percentage'] = df['utilisation_percentage']
+ad['handling_time'] = df['handling_time']
+ad['accuracy'] = df['accuracy']
+ad
+ad.isnull().sum()
 
 #visualising relationships between features
 sns.set(style="whitegrid")
@@ -41,7 +51,7 @@ sns.set(style="whitegrid")
 sns.heatmap(mod.loc[:,'productivity':'accuracy'].corr(method='pearson'), vmin=-.1, vmax=1,  annot=True, cmap='RdYlGn')
 plt.show()
 
-#variance explained by principal components
+
 sk_pca = PCA(n_components=4,random_state=234)
 sk_pca.fit(df)
 sk_pca
@@ -57,25 +67,8 @@ for p in graph.patches:
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
 plt.show()
-#snjfdn
 
 
-wcss = []  # Within-Cluster Sum of Squares
-
-# Try K values from 1 to a reasonable maximum (e.g., 10)
-for k in range(1, 11):
-    kmeans = KMeans(n_clusters=k, random_state=234)
-    kmeans.fit(df[['productivity', 'utilisation_percentage', 'handling_time', 'accuracy']])
-    wcss.append(kmeans.inertia_)
-
-# Plot the Elbow Method graph to choose the optimal K
-plt.figure(figsize=(8, 6))
-plt.plot(range(1, 11), wcss, marker='o', linestyle='-', color='b')
-plt.title('Elbow Method for Optimal K')
-plt.xlabel('Number of Clusters (K)')
-plt.ylabel('Within-Cluster Sum of Squares (WCSS)')
-plt.grid(True)
-plt.show()
 
 
 

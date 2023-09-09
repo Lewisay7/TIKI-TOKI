@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from datetime import date, datetime
+
 import os 
 try : 
     os.chdir("src")
@@ -7,8 +9,6 @@ except FileNotFoundError:
     pass
 
 '''Cleaning advertisement data'''
-
-
 def ad_cleaned():
     #data read in 
     url= "../data/ad_ranking_raw_data.xlsx"
@@ -32,8 +32,20 @@ def ad_cleaned():
         ad["ad_revenue"][row] = ad["avg_ad_revenue"][row]
 
     ad.dropna(inplace=True)
+    ad.index = range(1,len(ad)+1)
+    
+    duration_since_start_time = []
+    today = date.today().strftime("%Y/%m/%d")
+    for row in range(len(ad)):
+        start_time = ad["start_time"][row+1].strftime("%Y/%m/%d")
+        d1 = datetime.strptime(today, "%Y/%m/%d")
+        d2 = datetime.strptime(start_time, "%Y/%m/%d")
 
+        duration_since_start_time.append(d1-d2)
+
+    ad["duration_since_start_time"] = duration_since_start_time
     return ad
+
 
 ad_cleaned()
 
@@ -65,6 +77,7 @@ def mod_cleaned():
     moderator_data.drop_duplicates(subset=['mod_id'])
     #rounding off utilisation,productivity to 2 dp and accuracy to 3 dp
     moderator_data = moderator_data.round({'utilisation_percentage':2, 'productivity':2, 'accuracy':3})
+    moderator_data.index = range(1,len(moderator_data)+1)
     return moderator_data
 
 mod_cleaned()
