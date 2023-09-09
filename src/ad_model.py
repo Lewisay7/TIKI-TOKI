@@ -15,8 +15,13 @@ ad = clean.ad_cleaned()
 #standardising data
 scaler = StandardScaler()
 cols = ['punish_num','ad_revenue','baseline_st','duration_since_start_time']
+#converting duration from time to int 
 ad['duration_since_start_time'] = ad['duration_since_start_time'].dt.days
+#preparing data to analyse correlation and PCA
+
 ad_1 = ad.drop(['latest_punish_begin_date','avg_ad_revenue','start_time'], axis = 1)
+
+#standardising data
 standardised_cols = scaler.fit_transform(ad_1.loc[:,'punish_num':'duration_since_start_time'])
 standardised_cols
 df = pd.DataFrame(standardised_cols,columns = cols)
