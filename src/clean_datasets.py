@@ -24,30 +24,31 @@ def ad_cleaned():
     ad["punish_num"] = ad["punish_num"].replace(np.nan, 0)
 
     null_qm = np.where(ad["queue_market"].isnull())
-    for row in null_qm:
-        ad["queue_market"][row] = ad["delivery_country"][row]
+    for row in null_qm[0]:  # Use null_qm[0] to get the row indices
+        ad.loc[row, "queue_market"] = ad.loc[row, "delivery_country"]
 
     null_rev = np.where(ad["ad_revenue"].isnull())
-    for row in null_rev:
-        ad["ad_revenue"][row] = ad["avg_ad_revenue"][row]
+    for row in null_rev[0]:  # Use null_rev[0] to get the row indices
+        ad.loc[row, "ad_revenue"] = ad.loc[row, "avg_ad_revenue"]
 
     ad.dropna(inplace=True)
     ad.index = range(1,len(ad)+1)
     
-    duration_since_start_time = []
+    duration_since_start_time = []  
     today = date.today().strftime("%Y/%m/%d")
-    for row in range(len(ad)):
-        start_time = ad["start_time"][row+1].strftime("%Y/%m/%d")
+    for start_time in ad["start_time"]:
+        start_time_str = start_time.strftime("%Y/%m/%d")
         d1 = datetime.strptime(today, "%Y/%m/%d")
-        d2 = datetime.strptime(start_time, "%Y/%m/%d")
-
-        duration_since_start_time.append(d1-d2)
+        d2 = datetime.strptime(start_time_str, "%Y/%m/%d")
+        
+        duration = (d1 - d2).days
+        duration_since_start_time.append(duration)
 
     ad["duration_since_start_time"] = duration_since_start_time
     return ad
 
-
 ad_cleaned()
+
 
 '''Cleaning moderator data'''
 def replace_0(predictors,data):

@@ -11,10 +11,9 @@ import seaborn as sns
 
 
 ad = clean.ad_cleaned()
+ad.columns
 ad
-
-
-
+ad["duration_since_start_time"]
 
 
 
@@ -23,10 +22,10 @@ ad
 scaler = StandardScaler()
 ad
 scaler
-standardised_cols = scaler.fit_transform(ad.loc[:,'productivity':'accuracy'])
+standardised_cols = scaler.fit_transform(ad.loc[:,'productivity':'revenue'])
 
 len(standardised_cols)
-cols = ['productivity', 'utilisation_percentage','handling_time','accuracy']
+cols = ['punish_num', 'utilisation_percentage','handling_time','accuracy']
 df = pd.DataFrame(standardised_cols,columns = cols)
 df.index = df.index + 1
 df
