@@ -9,26 +9,36 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import seaborn as sns
 
+
 ad = clean.ad_cleaned()
-mod = clean.mod_cleaned()
 ad
-mod
+
+
+
+
+
 
 '''MODERATOR MODEL'''
 #standardising data
 scaler = StandardScaler()
-standardised_cols = scaler.fit_transform(mod.loc[:,'productivity':'accuracy'])
+ad
+scaler
+standardised_cols = scaler.fit_transform(ad.loc[:,'productivity':'accuracy'])
+
+len(standardised_cols)
 cols = ['productivity', 'utilisation_percentage','handling_time','accuracy']
 df = pd.DataFrame(standardised_cols,columns = cols)
 df.index = df.index + 1
+df
 
 df.shape
-mod['productivity'] = df['productivity']
-mod['utilisation_percentage'] = df['utilisation_percentage']
-mod['handling_time'] = df['handling_time']
-mod['accuracy'] = df['accuracy']
-mod
-mod.isnull().sum()
+ad
+ad['productivity'] = df['productivity']
+ad['utilisation_percentage'] = df['utilisation_percentage']
+ad['handling_time'] = df['handling_time']
+ad['accuracy'] = df['accuracy']
+ad
+ad.isnull().sum()
 
 #visualising relationships between features
 sns.set(style="whitegrid")
