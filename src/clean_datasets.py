@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
+import os 
+try : 
+    os.chdir("src")
+except FileNotFoundError: 
+    pass
 
 '''Cleaning advertisement data'''
 def ad_cleaned():
     #data read in 
-    url= "~/TIKI-TOKI/data/ad_ranking_raw_data.xlsx"
+    url= "../data/ad_ranking_raw_data.xlsx"
     ad = pd.read_excel(url,sheet_name=0,header=1)
 
     #clean up columns
@@ -31,7 +36,7 @@ def replace_nan(predictors, data):
 
 def mod_cleaned():
     #read in data
-    url= "~/TIKI-TOKI/data/ad_ranking_raw_data.xlsx"
+    url= "../data/ad_ranking_raw_data.xlsx"
     col_names = ['mod_id', 'market','productivity', 'utilisation_percentage','handling_time','accuracy']
     moderator_data = pd.read_excel(url,sheet_name=1,header=None,skiprows=1,names =['mod_id', 'market','productivity', 'utilisation_percentage','handling_time','accuracy'])
     #replacing obs with '-' to 0
