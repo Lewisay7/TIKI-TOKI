@@ -1,3 +1,7 @@
 import numpy as np
-import clean_datasets as data
+from . import ad_cleaned
 import sklearn as sk
+
+
+ad_cleaned()
+mod_cleaned()
