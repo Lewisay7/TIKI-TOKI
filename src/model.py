@@ -41,7 +41,7 @@ sns.set(style="whitegrid")
 sns.heatmap(mod.loc[:,'productivity':'accuracy'].corr(method='pearson'), vmin=-.1, vmax=1,  annot=True, cmap='RdYlGn')
 plt.show()
 
-
+#variance explained by principal components
 sk_pca = PCA(n_components=4,random_state=234)
 sk_pca.fit(df)
 sk_pca
@@ -57,6 +57,8 @@ for p in graph.patches:
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
 plt.show()
+#snjfdn
+
 
 
 
