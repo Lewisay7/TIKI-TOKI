@@ -58,7 +58,7 @@ for p in graph.patches:
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
 plt.show()
-
+#snjfdn
 
 
 
