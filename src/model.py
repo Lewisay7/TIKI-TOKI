@@ -60,15 +60,23 @@ for p in graph.patches:
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
 # plt.show()
+
+#transforming the data using pca
 mod2 = sk_pca.transform(df)
+
+#assigning the scores using weights of the proportion of explained ratio by the principal components
 scores = (mod2 * sk_pca.explained_variance_ratio_).sum(axis=1)
 
+#scaling the scores into the range of 0 and 1 
 scaler = MinMaxScaler()
 scores = scores.reshape(-1, 1)
 scores = scaler.fit_transform(scores)
 scores
+
+#Assigning scores to the advertisement
 mod["scores"] = scores
 mod
+#sorting the ads based on scores
 mod = mod.sort_values(by='scores', ascending= False)
 mod
 
