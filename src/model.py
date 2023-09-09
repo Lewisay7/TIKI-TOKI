@@ -15,7 +15,12 @@ scaler = StandardScaler()
 standardised_cols = scaler.fit_transform(mod.loc[:,'productivity':'accuracy'])
 cols = ['productivity', 'utilisation_percentage','handling_time','accuracy']
 df = pd.DataFrame(standardised_cols,columns = cols)
+df.index = df.index + 1
 df.shape
+mod['productivity'] = df['productivity']
+mod['productivity']
+mod.isnull().sum()
+
 
 
 
