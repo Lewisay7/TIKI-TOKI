@@ -15,10 +15,9 @@ ad = clean.ad_cleaned()
 #standardising data
 scaler = StandardScaler()
 cols = ['punish_num','ad_revenue','baseline_st','duration_since_start_time']
-#converting duration from time to int 
-ad['duration_since_start_time'] = ad['duration_since_start_time'].dt.days
-#preparing data to analyse correlation and PCA
 
+
+#preparing data to analyse correlation and PCA
 ad_1 = ad.drop(['latest_punish_begin_date','avg_ad_revenue','start_time'], axis = 1)
 
 #standardising data
@@ -37,13 +36,13 @@ ad_1.isnull().sum()
 #visualising relationships between features
 sns.set(style="whitegrid")
 sns.pairplot(ad_1.loc[:,'punish_num':'duration_since_start_time'], kind='reg', diag_kind='kde')
-plt.show()
+#plt.show()
 
 #Correlation
 plt.figure(figsize=(8,6))
 sns.set(style="whitegrid")
 sns.heatmap(ad_1.loc[:,'punish_num':'duration_since_start_time'].corr(method='pearson'), vmin=-.1, vmax=1,  annot=True, cmap='RdYlGn')
-plt.show()
+#plt.show()
 
 #variance explained by principal components
 sk_pca = PCA(n_components=4,random_state=234)
@@ -60,7 +59,7 @@ for p in graph.patches:
                    color= 'black')
 plt.ylabel('Proportion', fontsize=18)
 plt.xlabel('Principal Component', fontsize=18)
-plt.show()
+#plt.show()
 
 #transforming the data using pca
 ad2 = sk_pca.transform(df)
@@ -78,9 +77,13 @@ scores
 ad["scores"] = scores
 ad
 #sorting the ads based on scores
-ad = ad.sort_values(by='scores', ascending= False)
-ad
+ad_final = ad.sort_values(by='scores', ascending= False)
+ad_final
 
+def ad_data():
+    return ad_final
+
+ad_data()
 
 
 

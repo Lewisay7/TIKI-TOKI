@@ -76,10 +76,12 @@ scores
 mod["scores"] = scores
 mod
 #sorting the ads based on scores
-mod = mod.sort_values(by='scores', ascending= False)
-mod
+mod_final = mod.sort_values(by='scores', ascending= False)
+mod_final
 
-
+def mod_data():
+    return mod_final
+mod_data()
 
 
 
