@@ -61,7 +61,22 @@ plt.show()
 #snjfdn
 
 
+wcss = []  # Within-Cluster Sum of Squares
 
+# Try K values from 1 to a reasonable maximum (e.g., 10)
+for k in range(1, 11):
+    kmeans = KMeans(n_clusters=k, random_state=234)
+    kmeans.fit(df[['productivity', 'utilisation_percentage', 'handling_time', 'accuracy']])
+    wcss.append(kmeans.inertia_)
+
+# Plot the Elbow Method graph to choose the optimal K
+plt.figure(figsize=(8, 6))
+plt.plot(range(1, 11), wcss, marker='o', linestyle='-', color='b')
+plt.title('Elbow Method for Optimal K')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('Within-Cluster Sum of Squares (WCSS)')
+plt.grid(True)
+plt.show()
 
 
 
