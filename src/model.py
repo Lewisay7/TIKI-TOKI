@@ -1,7 +1,12 @@
 import numpy as np
-from . import ad_cleaned
+import clean_datasets
+
+
+import sys 
+sys.path.append("src")
+import clean_datasets as clean
+from . import ad_cleaned, mod_cleaned
 import sklearn as sk
 
-
-ad_cleaned()
-mod_cleaned()
+clean.ad_cleaned()
+clean.mod_cleaned()
